@@ -22,7 +22,7 @@ package org.acm_project.acm09.OO.epcis.accessframework.japi;
 
 import java.util.List;
 
-import org.fosstrak.epcis.repository.model.EPCISEvent;
+import org.fosstrak.epcis.model.EPCISEventType;
 
 /**
  * The EPCIS Capture Interface defines the delivery of EPCIS events from EPCIS
@@ -50,5 +50,5 @@ public interface CaptureInterface {
      *            EPCIS Repository or EPCIS Accessing Application is the time of
      *            capture.
      */
-    public void capture(List<EPCISEvent> events);
+    public void capture(List<EPCISEventType> events);
 }

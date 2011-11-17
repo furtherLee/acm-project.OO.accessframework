@@ -25,18 +25,18 @@ import java.util.List;
 import org.fosstrak.epcis.model.Poll;
 import org.fosstrak.epcis.model.QueryResults;
 import org.fosstrak.epcis.model.Subscribe;
-import org.fosstrak.epcis.soap.DuplicateSubscriptionExceptionResponse;
-import org.fosstrak.epcis.soap.ImplementationExceptionResponse;
-import org.fosstrak.epcis.soap.InvalidURIExceptionResponse;
-import org.fosstrak.epcis.soap.NoSuchNameExceptionResponse;
-import org.fosstrak.epcis.soap.NoSuchSubscriptionExceptionResponse;
-import org.fosstrak.epcis.soap.QueryParameterExceptionResponse;
-import org.fosstrak.epcis.soap.QueryTooComplexExceptionResponse;
-import org.fosstrak.epcis.soap.QueryTooLargeExceptionResponse;
-import org.fosstrak.epcis.soap.SecurityExceptionResponse;
-import org.fosstrak.epcis.soap.SubscribeNotPermittedExceptionResponse;
-import org.fosstrak.epcis.soap.SubscriptionControlsExceptionResponse;
-import org.fosstrak.epcis.soap.ValidationExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.DuplicateSubscriptionExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.ImplementationExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.InvalidURIExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.NoSuchNameExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.NoSuchSubscriptionExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.QueryParameterExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.QueryTooComplexExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.QueryTooLargeExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.SecurityExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.SubscribeNotPermittedExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.SubscriptionControlsExceptionResponse;
+import org.acm_project.acm09.OO.epcis.accessframework.soap.ValidationExceptionResponse;
 
 /**
  * @author Marco Steybe
