@@ -13,8 +13,6 @@ public class CRSWebAdapter {
 
 	private String hostPath;
 
-	private CRSResolvable component;
-
 	private boolean started;
 
 	private SelectorThread threadSelector;
@@ -27,7 +25,6 @@ public class CRSWebAdapter {
 		initParams
 				.put("com.sun.jersey.config.property.packages",
 						"org.acm_project.acm09.OO.crs.accessframework.webadapter");
-		this.component = comp;
 		CRSResource.setCRS(comp);
 	}
 
@@ -49,10 +46,12 @@ public class CRSWebAdapter {
 			e.printStackTrace();
 			started = false;
 		}
+		System.out.println("CRSWebAdapter is started!");
 		started = true;
 	}
 
 	public void stop() {
+		System.out.println("CRSWebAdapter shut down!");
 		threadSelector.stopEndpoint();
 		threadSelector = null;
 		started = false;

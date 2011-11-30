@@ -16,9 +16,11 @@ public class CRSResource {
 	}
 	
 	@GET
+	@Produces("text/plain")
 	public String handleGetRequest(@PathParam("epc") String epc){
 		StringBuilder ret = new StringBuilder();
 		ret.append(res.getEpcisLocation(epc));
 		return ret.toString();
 	}
+	
 }
