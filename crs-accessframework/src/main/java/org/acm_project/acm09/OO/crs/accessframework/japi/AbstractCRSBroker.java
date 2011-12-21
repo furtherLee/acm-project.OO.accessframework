@@ -10,9 +10,9 @@ abstract public class AbstractCRSBroker implements CRSResolvable {
         return false;
     }
     
-    public final static String INVALID_EPC_ERROR = "fuck";
-    public final static String INVALID_CRSHOST_ERROR = "fuck1";
-    public final static String TIMEOUT_ERROR = "fuck2";
-    public final static String CONNECTION_ERROR = "fuck3";
-    public final static String NO_SUCH_EPC = "fuck4";
+    public final static String INVALID_EPC_ERROR = "INVALID_EPC_ERROR";
+    public final static String INVALID_CRSHOST_ERROR = "INVALID_CRSHOST_ERROR";
+    public final static String TIMEOUT_ERROR = "TIMEOUT_ERROR";
+    public final static String CONNECTION_ERROR = "CONNECTION_ERROR";
+    public final static String NO_SUCH_EPC = "NO_SUCH_EPC";
 }

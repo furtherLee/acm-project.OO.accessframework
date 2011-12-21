@@ -35,7 +35,8 @@ public class DummyCRSTest implements CRSResolvable{
 	}
 	
 	public static void main(String[] args){
-		CRSWebAdapter adp = new CRSWebAdapter("http://localhost:9998/", new DummyCRSTest());
+
+		CRSWebAdapter adp = new CRSWebAdapter("http://localhost:9996/", new DummyCRSTest());
 		adp.start();
 	}
 	
