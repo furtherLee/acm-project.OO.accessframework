@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-package org.acm_project.acm09.OO.epcis.accessframework.demoTestCapture;
+package org.fosstrak.epcis.captureclient;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,7 +37,6 @@ import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.List;
 import java.util.Properties;
 
 import javax.net.ssl.HostnameVerifier;
@@ -52,12 +51,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.acm_project.acm09.OO.epcis.accessframework.japi.Broker;
-import org.acm_project.acm09.OO.epcis.accessframework.japi.CaptureInterface;
-import org.fosstrak.epcis.captureclient.CaptureClientException;
 import org.fosstrak.epcis.model.Document;
 import org.fosstrak.epcis.model.EPCISDocumentType;
-import org.fosstrak.epcis.model.EPCISEventType;
 import org.fosstrak.epcis.model.EPCISMasterDataDocumentType;
 import org.fosstrak.epcis.model.ObjectFactory;
 import org.fosstrak.epcis.utils.AuthenticationType;
@@ -70,7 +65,7 @@ import org.fosstrak.epcis.utils.AuthenticationType;
  * 
  * @author Marco Steybe
  */
-public class CaptureBroker extends Broker implements X509TrustManager, HostnameVerifier, CaptureInterface {
+public class CaptureClient implements X509TrustManager, HostnameVerifier {
 
     private static final String PROPERTY_FILE = "/captureclient.properties";
     private static final String PROPERTY_CAPTURE_URL = "default.url";
@@ -86,7 +81,7 @@ public class CaptureBroker extends Broker implements X509TrustManager, HostnameV
     /**
      * Constructs a new CaptureClient using a default URL and no authentication.
      */
-    public CaptureBroker() {
+    public CaptureClient() {
         this(null, null);
     }
 
@@ -96,7 +91,7 @@ public class CaptureBroker extends Broker implements X509TrustManager, HostnameV
      * @param url
      *            The URL to the EPCIS Capture Interface.
      */
-    public CaptureBroker(String url) {
+    public CaptureClient(String url) {
         this(url, null);
     }
 
@@ -127,7 +122,7 @@ public class CaptureBroker extends Broker implements X509TrustManager, HostnameV
      * @param authOptions
      *            The authentication options as described above.
      */
-    public CaptureBroker(final String url, Object[] authOptions) {
+    public CaptureClient(final String url, Object[] authOptions) {
         // set the URL
         if (url != null) {
             captureUrl = url;
@@ -435,15 +430,4 @@ public class CaptureBroker extends Broker implements X509TrustManager, HostnameV
         context.init(keyManagerFactory.getKeyManagers(), new TrustManager[] { this }, new SecureRandom());
         return context;
     }
-    
-    
-    public int testLink(){
-    	return 1;
-    }
-
-	@Override
-	public void capture(List<EPCISEventType> events) {
-
-		
-	}
 }

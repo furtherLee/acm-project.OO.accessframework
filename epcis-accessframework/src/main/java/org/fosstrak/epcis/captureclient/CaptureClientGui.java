@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-package org.acm_project.acm09.OO.epcis.accessframework.demoTestCapture;
+package org.fosstrak.epcis.captureclient;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -64,10 +64,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.acm_project.acm09.OO.epcis.accessframework.demoTestCapture.CaptureBrokerHelper.EpcisEventType;
-import org.acm_project.acm09.OO.epcis.accessframework.demoTestCapture.CaptureBrokerHelper.ExampleEvents;
-import org.acm_project.acm09.OO.epcis.accessframework.demoTestCapture.CaptureEvent.BizTransaction;
-import org.fosstrak.epcis.captureclient.CaptureClientException;
+import org.fosstrak.epcis.captureclient.CaptureClientHelper.EpcisEventType;
+import org.fosstrak.epcis.captureclient.CaptureClientHelper.ExampleEvents;
+import org.fosstrak.epcis.captureclient.CaptureEvent.BizTransaction;
 import org.fosstrak.epcis.gui.AuthenticationOptionsChangeEvent;
 import org.fosstrak.epcis.gui.AuthenticationOptionsChangeListener;
 import org.fosstrak.epcis.gui.AuthenticationOptionsPanel;
@@ -81,13 +80,13 @@ import org.w3c.dom.Element;
  * 
  * @author David Gubler
  */
-public class CaptureBrokerGui extends WindowAdapter implements ActionListener, AuthenticationOptionsChangeListener {
+public class CaptureClientGui extends WindowAdapter implements ActionListener, AuthenticationOptionsChangeListener {
 
     /**
      * The client through which the EPCISEvents will be sent to the repository's
      * Capture Operations Module.
      */
-    private CaptureBroker client;
+    private CaptureClient client;
 
     /*
      * These lists hold the input fields for the BizTransactions. The lists are
@@ -185,7 +184,7 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
     /**
      * Constructs a new CaptureClientGui initialized with a default address.
      */
-    public CaptureBrokerGui() {
+    public CaptureClientGui() {
         this(null);
     }
 
@@ -196,8 +195,8 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
      *            The address to which the CaptureClient should sent its capture
      *            events.
      */
-    public CaptureBrokerGui(final String address) {
-        this.client = new CaptureBroker(address);
+    public CaptureClientGui(final String address) {
+        this.client = new CaptureClient(address);
         initWindow();
     }
 
@@ -295,61 +294,61 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
         // instantiate all event data input fields, their default values and
         // descriptions
         mwEventTimeLabel = new JLabel("event time");
-        mwEventTimeTextField = new JTextField(CaptureBrokerHelper.format(Calendar.getInstance()));
-        mwEventTimeTextField.setToolTipText(CaptureBrokerHelper.toolTipDate);
+        mwEventTimeTextField = new JTextField(CaptureClientHelper.format(Calendar.getInstance()));
+        mwEventTimeTextField.setToolTipText(CaptureClientHelper.toolTipDate);
 
         mwEventTimeZoneOffsetLabel = new JLabel("time zone offset");
-        mwEventTimeZoneOffsetTextField = new JTextField(CaptureBrokerHelper.getTimeZone(Calendar.getInstance()));
+        mwEventTimeZoneOffsetTextField = new JTextField(CaptureClientHelper.getTimeZone(Calendar.getInstance()));
 
         mwActionLabel = new JLabel("action");
-        mwActionComboBox = new JComboBox(CaptureBrokerHelper.ACTIONS);
+        mwActionComboBox = new JComboBox(CaptureClientHelper.ACTIONS);
 
         mwBizStepLabel = new JLabel("business step");
         mwBizStepTextField = new JTextField();
-        mwBizStepTextField.setToolTipText(CaptureBrokerHelper.toolTipUri + CaptureBrokerHelper.toolTipOptional);
+        mwBizStepTextField.setToolTipText(CaptureClientHelper.toolTipUri + CaptureClientHelper.toolTipOptional);
 
         mwDispositionLabel = new JLabel("disposition");
         mwDispositionTextField = new JTextField();
-        mwDispositionTextField.setToolTipText(CaptureBrokerHelper.toolTipUri + CaptureBrokerHelper.toolTipOptional);
+        mwDispositionTextField.setToolTipText(CaptureClientHelper.toolTipUri + CaptureClientHelper.toolTipOptional);
 
         mwReadPointLabel = new JLabel("read point");
         mwReadPointTextField = new JTextField();
-        mwReadPointTextField.setToolTipText(CaptureBrokerHelper.toolTipUri + CaptureBrokerHelper.toolTipOptional);
+        mwReadPointTextField.setToolTipText(CaptureClientHelper.toolTipUri + CaptureClientHelper.toolTipOptional);
 
         mwBizLocationLabel = new JLabel("business location");
         mwBizLocationTextField = new JTextField();
-        mwBizLocationTextField.setToolTipText(CaptureBrokerHelper.toolTipUri + CaptureBrokerHelper.toolTipOptional);
+        mwBizLocationTextField.setToolTipText(CaptureClientHelper.toolTipUri + CaptureClientHelper.toolTipOptional);
 
         mwBizTransactionLabel = new JLabel("business transaction");
         mwBizTransactionTextField = new JTextField();
-        mwBizTransactionTextField.setToolTipText(CaptureBrokerHelper.toolTipUri + CaptureBrokerHelper.toolTipOptional);
+        mwBizTransactionTextField.setToolTipText(CaptureClientHelper.toolTipUri + CaptureClientHelper.toolTipOptional);
 
         mwEpcListLabel = new JLabel("EPCs");
         mwEpcListTextField = new JTextField();
-        mwEpcListTextField.setToolTipText(CaptureBrokerHelper.toolTipUris);
+        mwEpcListTextField.setToolTipText(CaptureClientHelper.toolTipUris);
 
         mwParentIDLabel = new JLabel("parent object");
         mwParentIDTextField = new JTextField();
-        mwParentIDTextField.setToolTipText(CaptureBrokerHelper.toolTipUri);
+        mwParentIDTextField.setToolTipText(CaptureClientHelper.toolTipUri);
 
         mwChildEPCsLabel = new JLabel("child EPCs");
         mwChildEPCsTextField = new JTextField();
-        mwChildEPCsTextField.setToolTipText(CaptureBrokerHelper.toolTipUris + CaptureBrokerHelper.toolTipOptional);
+        mwChildEPCsTextField.setToolTipText(CaptureClientHelper.toolTipUris + CaptureClientHelper.toolTipOptional);
 
         mwEpcClassLabel = new JLabel("EPC class");
         mwEpcClassTextField = new JTextField();
-        mwChildEPCsTextField.setToolTipText(CaptureBrokerHelper.toolTipUri);
+        mwChildEPCsTextField.setToolTipText(CaptureClientHelper.toolTipUri);
 
         mwQuantityLabel = new JLabel("quantity");
         mwQuantityTextField = new JTextField();
-        mwChildEPCsTextField.setToolTipText(CaptureBrokerHelper.toolTipInteger);
+        mwChildEPCsTextField.setToolTipText(CaptureClientHelper.toolTipInteger);
 
         mwBizTransTypeFields = new ArrayList<JTextField>();
         mwBizTransIDFields = new ArrayList<JTextField>();
         mwBizTransButtons = new ArrayList<JButton>();
 
         mwBizTransactionPanel = new JPanel(new GridBagLayout());
-        ImageIcon tempImageIcon = CaptureBrokerHelper.getImageIcon("new10.gif");
+        ImageIcon tempImageIcon = CaptureClientHelper.getImageIcon("new10.gif");
         mwBizTransactionPlus = new JButton(tempImageIcon);
         mwBizTransactionPlus.setMargin(new Insets(0, 0, 0, 0));
         mwBizTransactionPlus.addActionListener(this);
@@ -551,12 +550,7 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
             return;
         }
         if (e.getSource() == mwGenerateEventButton) {
-            try {
-				mwGenerateEventButtonPressed();
-			} catch (CaptureClientException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            mwGenerateEventButtonPressed();
             return;
         }
         if (e.getSource() == mwFillInExampleButton) {
@@ -660,9 +654,8 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
      * from the user interface to XML, POSTs it to the server and displays the
      * answer to the user. It also does some simple client-side checks to see if
      * all necessary fields are filled.
-     * @throws CaptureClientException 
      */
-    private void mwGenerateEventButtonPressed() throws CaptureClientException {
+    private void mwGenerateEventButtonPressed() {
         dwOutputTextArea.setText("");
         /* used later for user interaction */
         JFrame frame = new JFrame();
@@ -681,7 +674,7 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
             document = impl.createDocument("urn:epcglobal:epcis:xsd:1", "epcis:EPCISDocument", null);
             Element root = document.getDocumentElement();
 
-            root.setAttribute("creationDate", CaptureBrokerHelper.format(Calendar.getInstance()));
+            root.setAttribute("creationDate", CaptureClientHelper.format(Calendar.getInstance()));
             root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
             root.setAttribute("xmlns:epcis", "urn:epcglobal:epcis:xsd:1");
             root.setAttribute("schemaVersion", "1.0");
@@ -696,14 +689,14 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
             root = element;
 
             // eventTime
-            if (!CaptureBrokerHelper.addEventTime(document, root, mwEventTimeTextField.getText())) {
+            if (!CaptureClientHelper.addEventTime(document, root, mwEventTimeTextField.getText())) {
                 JOptionPane.showMessageDialog(frame, "Please specify the event time "
                         + "(e.g. 2005-07-18T17:33:20.231Z)", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // eventTimeZoneOffset
-            if (!CaptureBrokerHelper.addEventTimeZoneOffset(document, root, mwEventTimeZoneOffsetTextField.getText())) {
+            if (!CaptureClientHelper.addEventTimeZoneOffset(document, root, mwEventTimeZoneOffsetTextField.getText())) {
                 JOptionPane.showMessageDialog(frame, "Please specify the event timezone offset "
                         + "(e.g. +00:00 or -06:30)", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -713,67 +706,67 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
 
             int index = mwEventTypeChooserComboBox.getSelectedIndex();
             if (EpcisEventType.fromGuiIndex(index) == EpcisEventType.ObjectEvent) {
-                if (!CaptureBrokerHelper.addEpcList(document, root, mwEpcListTextField.getText())) {
+                if (!CaptureClientHelper.addEpcList(document, root, mwEpcListTextField.getText())) {
                     JOptionPane.showMessageDialog(frame, "Please specify at least one EPC", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                CaptureBrokerHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
-                CaptureBrokerHelper.addBizStep(document, root, mwBizStepTextField.getText());
-                CaptureBrokerHelper.addDisposition(document, root, mwDispositionTextField.getText());
-                CaptureBrokerHelper.addReadPoint(document, root, mwReadPointTextField.getText());
-                CaptureBrokerHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
-                CaptureBrokerHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
+                CaptureClientHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
+                CaptureClientHelper.addBizStep(document, root, mwBizStepTextField.getText());
+                CaptureClientHelper.addDisposition(document, root, mwDispositionTextField.getText());
+                CaptureClientHelper.addReadPoint(document, root, mwReadPointTextField.getText());
+                CaptureClientHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
+                CaptureClientHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
             } else if (EpcisEventType.fromGuiIndex(index) == EpcisEventType.AggregationEvent) {
-                if (!CaptureBrokerHelper.addParentId(document, root, mwParentIDTextField.getText()) && !mwActionComboBox.getSelectedItem().equals("OBSERVE")) {
+                if (!CaptureClientHelper.addParentId(document, root, mwParentIDTextField.getText()) && !mwActionComboBox.getSelectedItem().equals("OBSERVE")) {
                     JOptionPane.showMessageDialog(frame, "Because action is OBSERVE, it's required to "
                             + "specify a ParentID", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if (!CaptureBrokerHelper.addChildEpcList(document, root, mwChildEPCsTextField.getText())) {
+                if (!CaptureClientHelper.addChildEpcList(document, root, mwChildEPCsTextField.getText())) {
                     JOptionPane.showMessageDialog(frame, "Please specify at least one EPC", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                CaptureBrokerHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
-                CaptureBrokerHelper.addBizStep(document, root, mwBizStepTextField.getText());
-                CaptureBrokerHelper.addDisposition(document, root, mwDispositionTextField.getText());
-                CaptureBrokerHelper.addReadPoint(document, root, mwReadPointTextField.getText());
-                CaptureBrokerHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
-                CaptureBrokerHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
+                CaptureClientHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
+                CaptureClientHelper.addBizStep(document, root, mwBizStepTextField.getText());
+                CaptureClientHelper.addDisposition(document, root, mwDispositionTextField.getText());
+                CaptureClientHelper.addReadPoint(document, root, mwReadPointTextField.getText());
+                CaptureClientHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
+                CaptureClientHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
             } else if (EpcisEventType.fromGuiIndex(index) == EpcisEventType.QuantityEvent) {
-                if (!CaptureBrokerHelper.addEpcClass(document, root, mwEpcClassTextField.getText())) {
+                if (!CaptureClientHelper.addEpcClass(document, root, mwEpcClassTextField.getText())) {
                     JOptionPane.showMessageDialog(frame, "Please specify an EPC class (URI)", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if (!CaptureBrokerHelper.addQuantity(document, root, mwQuantityTextField.getText())) {
+                if (!CaptureClientHelper.addQuantity(document, root, mwQuantityTextField.getText())) {
                     JOptionPane.showMessageDialog(frame, "Please specify a quantity value (integer number)", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                CaptureBrokerHelper.addBizStep(document, root, mwBizStepTextField.getText());
-                CaptureBrokerHelper.addDisposition(document, root, mwDispositionTextField.getText());
-                CaptureBrokerHelper.addReadPoint(document, root, mwReadPointTextField.getText());
-                CaptureBrokerHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
-                CaptureBrokerHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
+                CaptureClientHelper.addBizStep(document, root, mwBizStepTextField.getText());
+                CaptureClientHelper.addDisposition(document, root, mwDispositionTextField.getText());
+                CaptureClientHelper.addReadPoint(document, root, mwReadPointTextField.getText());
+                CaptureClientHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
+                CaptureClientHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields));
             } else if (EpcisEventType.fromGuiIndex(index) == EpcisEventType.TransactionEvent) {
-                if (!CaptureBrokerHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields))) {
+                if (!CaptureClientHelper.addBizTransactions(document, root, fromGui(mwBizTransIDFields, mwBizTransTypeFields))) {
                     JOptionPane.showMessageDialog(frame, "Please specify at least one business "
                             + "transaction (ID, Type)", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                CaptureBrokerHelper.addParentId(document, root, mwParentIDTextField.getText());
-                if (!CaptureBrokerHelper.addEpcList(document, root, mwEpcListTextField.getText())) {
+                CaptureClientHelper.addParentId(document, root, mwParentIDTextField.getText());
+                if (!CaptureClientHelper.addEpcList(document, root, mwEpcListTextField.getText())) {
                     JOptionPane.showMessageDialog(frame, "Please specify at least one EPC", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                CaptureBrokerHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
-                CaptureBrokerHelper.addBizStep(document, root, mwBizStepTextField.getText());
-                CaptureBrokerHelper.addDisposition(document, root, mwDispositionTextField.getText());
-                CaptureBrokerHelper.addReadPoint(document, root, mwReadPointTextField.getText());
-                CaptureBrokerHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
+                CaptureClientHelper.addAction(document, root, (String) mwActionComboBox.getSelectedItem());
+                CaptureClientHelper.addBizStep(document, root, mwBizStepTextField.getText());
+                CaptureClientHelper.addDisposition(document, root, mwDispositionTextField.getText());
+                CaptureClientHelper.addReadPoint(document, root, mwReadPointTextField.getText());
+                CaptureClientHelper.addBizLocation(document, root, mwBizLocationTextField.getText());
             }
 
             DOMSource domsrc = new DOMSource(document);
@@ -857,11 +850,11 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
      */
     private void addBizTransactionRow() {
         JTextField bizTransID = new JTextField();
-        bizTransID.setToolTipText(CaptureBrokerHelper.toolTipBizTransID);
+        bizTransID.setToolTipText(CaptureClientHelper.toolTipBizTransID);
         JTextField bizTransType = new JTextField();
-        bizTransType.setToolTipText(CaptureBrokerHelper.toolTipBizTransType);
+        bizTransType.setToolTipText(CaptureClientHelper.toolTipBizTransType);
 
-        ImageIcon tempDelIcon = CaptureBrokerHelper.getImageIcon("delete10.gif");
+        ImageIcon tempDelIcon = CaptureClientHelper.getImageIcon("delete10.gif");
         JButton minus = new JButton(tempDelIcon);
 
         minus.setMargin(new Insets(0, 0, 0, 0));
@@ -973,16 +966,16 @@ public class CaptureBrokerGui extends WindowAdapter implements ActionListener, A
         }
         if (args != null && args.length > 0) {
             // a default url is given
-            new CaptureBrokerGui(args[0]);
+            new CaptureClientGui(args[0]);
         } else {
-            new CaptureBrokerGui();
+            new CaptureClientGui();
         }
     }
 
 	public void configurationChanged(AuthenticationOptionsChangeEvent ace) {
         if (ace.isComplete()) {
         	mwGenerateEventButton.setEnabled(true);
-        	client = new CaptureBroker(mwServiceUrlTextField.getText(), mwAuthOptions.getAuthenticationOptions());
+        	client = new CaptureClient(mwServiceUrlTextField.getText(), mwAuthOptions.getAuthenticationOptions());
         } else {
         	mwGenerateEventButton.setEnabled(false);
         }
