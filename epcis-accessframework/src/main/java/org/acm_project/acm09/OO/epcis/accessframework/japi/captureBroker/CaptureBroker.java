@@ -20,10 +20,12 @@ public class CaptureBroker extends Broker implements CaptureInterface{
 	}
 	
 	public CaptureBroker(String url){
+		super.setUrl(url);
 		client = new CaptureClient(url);
 	}
 	
 	public CaptureBroker(final String url, Object[] authOptions){
+		super.setUrl(url);
 		client = new CaptureClient(url, authOptions);
 	}
 	

@@ -2,7 +2,7 @@ package org.acm_project.acm09.OO.epcis.accessframework.japi;
 
 public abstract class Broker {
 	
-	public static final String defaultUrl = "http://localhost/epcis-repository/capture";
+	public static final String defaultUrl = "http://localhost/epcis-repository/";
 	
 	private String url = defaultUrl;
 	
