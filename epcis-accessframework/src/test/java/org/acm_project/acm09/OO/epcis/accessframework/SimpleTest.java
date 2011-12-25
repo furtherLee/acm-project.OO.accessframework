@@ -5,6 +5,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.acm_project.acm09.OO.epcis.accessframework.japi.captureBroker.CaptureBroker;
+import org.acm_project.acm09.OO.epcis.accessframework.japi.captureBroker.eventhandler.EventXmlHandlerFactory;
 import org.fosstrak.epcis.model.ActionType;
 import org.fosstrak.epcis.model.BusinessLocationType;
 import org.fosstrak.epcis.model.BusinessTransactionListType;
@@ -24,7 +25,7 @@ public class SimpleTest {
 		XMLGregorianCalendar calendar =  DatatypeFactory.newInstance().newXMLGregorianCalendar(2011, 12, 24, 23, 42, 31, 0, 8);
 		EPCListType list = new EPCListType();
 		EPC epc = new EPC();
-		epc.setValue("urn:epc:id:sgtin:11111.11111.00001");
+		epc.setValue("urn:epc:id:sgtin:11111.11111.00002");
 		list.getEpc().add(epc);
 		BusinessLocationType location = new BusinessLocationType();
 		location.setId("urn:epc:id:global:D19-308");
@@ -43,6 +44,7 @@ public class SimpleTest {
 		event.setBizLocation(location);
 		event.setBizTransactionList(bizList);
 		event.setEventTimeZoneOffset("+08:00");
+		
 		if(broker.captureWithCheck(event))
 			System.out.println("OK");
 		else

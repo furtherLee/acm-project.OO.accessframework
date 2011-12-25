@@ -63,7 +63,8 @@ public class CaptureBroker extends Broker implements CaptureInterface{
 			if (ret)
 				ret = (capture(xmlString) == 200);
 		}
-		catch(CaptureClientException exp){
+		catch(Throwable exp){
+			ret = false;
 		}
 		
 		return ret;
@@ -76,7 +77,8 @@ public class CaptureBroker extends Broker implements CaptureInterface{
 			if (ret)
 				ret = (capture(xmlString) == 200);
 		}
-		catch(CaptureClientException exp){
+		catch(Throwable exp){
+			ret = false;
 		}
 		return ret;
 	}
