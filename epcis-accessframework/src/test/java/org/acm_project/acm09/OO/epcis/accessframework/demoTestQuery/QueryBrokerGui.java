@@ -1057,6 +1057,7 @@ public class QueryBrokerGui extends WindowAdapter implements ActionListener, Aut
             String name;
             for (int i = 0; i < mwQueryArgumentTextFields.size() - 1; i++) {
                 name = ((JTextFieldEnhanced) mwQueryArgumentTextFields.get(i)).queryItem.getQueryText();
+                System.err.println(name);
                 QueryParam param = new QueryParam();
                 param.setName(name);
                 switch (((JTextFieldEnhanced) mwQueryArgumentTextFields.get(i)).queryItem.getParamType()) {

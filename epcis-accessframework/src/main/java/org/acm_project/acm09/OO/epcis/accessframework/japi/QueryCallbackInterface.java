@@ -37,7 +37,7 @@ public interface QueryCallbackInterface {
      * @param resultData
      *            The QueryResults object to be populated.
      */
-    void callbackResults(QueryResults resultData);
+	void callbackResults(QueryResults results);
 
     /**
      * Performs a callback for a standing query when the query threw a

@@ -24,6 +24,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,20 +45,23 @@ public class QueryCallbackBroker extends HttpServlet implements QueryCallbackInt
 
     private static final long serialVersionUID = 6250815925403597265L;
     private static String callbackResults = null;
+    private QueryCallbackObserved observed = null;
+    
+    public QueryCallbackBroker() {
+    	observed = new QueryCallbackObserved();
+    }
+
+    public void registry(Observer o) {
+    	observed.addObserver(o);
+    }
 
     /**
      * {@inheritDoc}
      * 
      * @see org.fosstrak.epcis.queryclient.QueryCallbackInterface#callbackResults(org.fosstrak.epcis.soapapi.QueryResults)
      */
-    public void callbackResults(QueryResults result) {
-        InputStream is = new ByteArrayInputStream(callbackResults.getBytes());
-        try {
-            result = QueryResultsParser.parseResults(is);
-        } catch (IOException e) {
-            // TODO auto-generated catch block
-            e.printStackTrace();
-        }
+    public void callbackResults(QueryResults results) {
+        observed.notifyObservers(results);
     }
 
     /**
@@ -111,6 +116,8 @@ public class QueryCallbackBroker extends HttpServlet implements QueryCallbackInt
 
         out.println("Callback OK.");
         out.flush();
+        InputStream is = new ByteArrayInputStream(callbackResults.getBytes());
+        callbackResults(QueryResultsParser.parseResults(is));
     }
 
     /**
@@ -123,5 +130,9 @@ public class QueryCallbackBroker extends HttpServlet implements QueryCallbackInt
         rsp.setContentType("text/xml");
         final PrintWriter out = rsp.getWriter();
         out.print(callbackResults);
+    }
+    
+    static public class QueryCallbackObserved extends Observable {
+    	
     }
 }
